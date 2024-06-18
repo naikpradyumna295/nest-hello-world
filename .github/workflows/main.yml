@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-deploy:
@@ -28,17 +28,17 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-east-1'
         EC2_HOST: ${{ secrets.EC2_HOST }}
+        KEY_FILE: ${{ secrets.KEY_FILE }}
 
       run: |
         echo "${{ secrets.KEY_FILE }}" > Intern.pem
         chmod 400 Intern.pem
         ssh -o StrictHostKeyChecking=no -i Intern.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-          cd /root/nest-hello-world
-
-          git pull origin master
+          cd /path/to/your/nestjs/app
+          git pull origin main
           npm install
           npm run build
           sudo service nginx restart
         EOF
+
