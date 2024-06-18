@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
@@ -36,7 +36,7 @@ jobs:
         chmod 400 Intern.pem
         ssh -o StrictHostKeyChecking=no -i Intern.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           cd /path/to/your/nestjs/app
-          git pull origin main
+          git pull origin master
           npm install
           npm run build
           sudo service nginx restart
