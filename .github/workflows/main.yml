@@ -30,13 +30,15 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-1'
         EC2_HOST: ${{ secrets.EC2_HOST }}
-        KEY_FILE: ${{ secrets.KEY_FILE }}
 
       run: |
         echo "${{ secrets.KEY_FILE }}" > Intern.pem
         chmod 400 Intern.pem
-        ssh -o StrictHostKeyChecking=no -i Inern.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-          cd /path/to/your-nestjs-app
-          git pull origin main
+        ssh -o StrictHostKeyChecking=no -i Intern.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          cd /root/nest-hello-world
+
+          git pull origin master
           npm install
-          npm
+          npm run build
+          sudo service nginx restart
+        EOF
