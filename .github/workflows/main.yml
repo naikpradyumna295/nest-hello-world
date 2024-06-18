@@ -32,9 +32,9 @@ jobs:
         KEY_FILE: ${{ secrets.KEY_FILE }}
 
       run: |
-        echo "${{ secrets.KEY_FILE }}" > Intern.pem
-        chmod 400 Intern.pem
-        ssh -o StrictHostKeyChecking=no -i Intern.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+        echo "${{ secrets.KEY_FILE }}" > Intern.pem.pub
+        chmod 400 Intern.pem.pub
+        ssh -o StrictHostKeyChecking=no -i Intern.pem.pub ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           cd /root/nest-hello-world
 
           git pull origin master
